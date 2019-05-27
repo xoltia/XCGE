@@ -72,9 +72,6 @@ void Screen::Update()
 void Screen::Render()
 {
 	system("cls");
-	std::string scoreStr = std::string("Score: ") + std::to_string(score);
-	std::string padding = std::string(width - scoreStr.length() + 1, ' ');
-	std::cout << padding << scoreStr << padding << std::endl;
 	std::string horizontalBorder = '+' + std::string(width*2, '-') + "+\n";
 	std::cout << horizontalBorder;
 	
@@ -156,14 +153,4 @@ int Screen::GetWidth() const
 std::vector<Drawable*> Screen::GetDrawables() const
 {
 	return drawables;
-}
-
-void Screen::IncrementScore(int amount)
-{
-	score += amount;
-}
-
-int Screen::GetScore() const
-{
-	return score;
 }
