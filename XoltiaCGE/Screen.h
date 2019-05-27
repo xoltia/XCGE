@@ -39,5 +39,5 @@ public:
 	static LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam);
 	bool GetInput(char key);
 	std::vector<Drawable*> GetDrawables() const;
-	std::vector<Updateable*> GetUpdateables() const
+	std::vector<Updateable*> GetUpdateables() const;
 };
