@@ -5,6 +5,7 @@
 
 bool Screen::keys[128] = { false };
 std::vector<const char*> Screen::messages;
+bool Screen::needsLogging = false;
 
 bool Screen::Destroy(Drawable* drawable)
 {
@@ -48,7 +49,7 @@ bool Screen::ShouldRedraw()
 {
 	for (int i = 0; i < drawables.size(); i++)
 		if (drawables[i]->NeedsRedraw()) return true;
-	return false;
+	return needsLogging;
 }
 
 // Called before update.
@@ -115,6 +116,8 @@ void Screen::Render()
 // Called after render function.
 void Screen::PostRender()
 {
+	needsLogging = false;
+
 	for (int i = 0; i < updateables.size(); i++)
 	{
 		updateables[i]->PostRender();
@@ -153,6 +156,7 @@ bool Screen::GetInput(char key)
 void Screen::Log(const char* message)
 {
 	messages.push_back(message);
+	needsLogging = true;
 }
 
 void Screen::ClearLog()

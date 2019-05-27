@@ -4,6 +4,8 @@
 #include "Drawable.h"
 #include "Updateable.h"
 
+// TODO make logging nonstatic
+
 class Screen
 {
 private:
@@ -12,6 +14,7 @@ private:
 	int height, width;
 	static bool keys[128];
 	static std::vector<const char*> messages;
+	static bool needsLogging;
 public:
 	bool shouldClose;
 
