@@ -12,6 +12,12 @@ void Drawable::ClearRedraw()
 	needsRedraw = false;
 }
 
+void Drawable::PreUpdate()
+{
+	ClearRedraw();
+	OnPreUpdate();
+}
+
 int Drawable::GetX() const
 {
 	return position.x;

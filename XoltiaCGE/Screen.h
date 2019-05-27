@@ -26,11 +26,15 @@ public:
 	void Add(Drawable* drawable);
 	void Add(Updateable* updateable);
 	bool Destroy(Drawable* drawable);
+	void PreUpdate();
 	void Update();
+	void PostUpdate();
+	void PostRender();
 	bool ShouldRedraw();
 	Drawable* DrawableAt(Vec2 pos);
 	Drawable* DrawableAt(int x, int y);
 	static LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam);
 	bool GetInput(char key);
 	std::vector<Drawable*> GetDrawables() const;
+	std::vector<Updateable*> GetUpdateables() const
 };

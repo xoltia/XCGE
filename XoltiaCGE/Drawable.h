@@ -29,4 +29,7 @@ public:
 	Vec2 GetPosition() const;
 	bool NeedsRedraw();
 	void ClearRedraw();
+
+	void PreUpdate() override;
+	virtual void OnPreUpdate() {};
 };

@@ -22,6 +22,7 @@ bool Screen::Destroy(Drawable* drawable)
 void Screen::Add(Drawable* drawable)
 {
 	drawables.push_back(drawable);
+	updateables.push_back(drawable);
 }
 
 void Screen::Add(Updateable* updateable)
@@ -50,22 +51,35 @@ bool Screen::ShouldRedraw()
 	return false;
 }
 
+// Called before update.
+void Screen::PreUpdate()
+{
+	for (int i = 0; i < updateables.size(); i++)
+	{
+		updateables[i]->PreUpdate();
+	}
+}
+
+// When all updateables should make any needed updates.
 void Screen::Update()
 {
-	for (int i = 0; i < drawables.size(); i++)
-	{
-		drawables[i]->ClearRedraw();
-		drawables[i]->OnUpdate();
-	}
-
 	for (int i = 0; i < updateables.size(); i++)
 	{
 		updateables[i]->OnUpdate();
 	}
+}
 
+// Called after update and before render.
+void Screen::PostUpdate()
+{
 	for (int i = 0; i < 128; i++)
 	{
 		keys[i] = false;
+	}
+
+	for (int i = 0; i < updateables.size(); i++)
+	{
+		updateables[i]->PostUpdate();
 	}
 }
 
@@ -98,6 +112,15 @@ void Screen::Render()
 	}
 }
 
+// Called after render function.
+void Screen::PostRender()
+{
+	for (int i = 0; i < updateables.size(); i++)
+	{
+		updateables[i]->PostRender();
+	}
+}
+
 LRESULT CALLBACK Screen::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
 	BOOL fEatKeystroke = FALSE;
@@ -113,9 +136,6 @@ LRESULT CALLBACK Screen::KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 			case WM_KEYDOWN:
 				keys[keyCode] = true;
 				break;
-			/*case WM_KEYUP:
-				keys[keyCode] = false;
-				break;*/
 			}
 		}
 	}
@@ -153,4 +173,9 @@ int Screen::GetWidth() const
 std::vector<Drawable*> Screen::GetDrawables() const
 {
 	return drawables;
+}
+
+std::vector<Updateable*> Screen::GetUpdateables() const
+{
+	return updateables;
 }
